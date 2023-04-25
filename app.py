@@ -82,43 +82,62 @@ def category_options(selected_value):
 def get_figure(category, variable):
 
     selection=variable
+    print(variable)
 
     df['FIPS'] = df["FIPS"].astype(str)
 
     tgdf = gdf_2020.merge(df, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
+    print(list(tgdf.columns))
+
+    
+
+    if variable:
+        fig=go.Figure()
+
+        fig.add_trace(go.Choroplethmapbox(
+            geojson=eval(tgdf['geometry'].to_json()),
+                            locations=tgdf.index,
+                            z=tgdf[selection],
+                            # coloraxis='coloraxis',
+                            # marker={'opacity':opacity},
+                            # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
+                            zmin=0,
+                            zmax=1,
+                            showscale=True,
+        ))
+
+    # else:
+    #     fig.add_trace(go.Scattermapbox(
+    #         mode="lines",
+
+    #     ))
+        
 
 
-    fig=go.Figure()
-
-    fig.add_trace(go.Choroplethmapbox(
-                geojson=eval(tgdf['geometry'].to_json()),
-                                locations=tgdf.index,
-                                z=tgdf[selection],
-                                # coloraxis='coloraxis',
-                                # marker={'opacity':opacity},
-                                # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
-                                zmin=0,
-                                zmax=1,
-                                showscale=False,
-            ))
-
-    # fig = px.choropleth_mapbox(tgdf, 
-    #                             geojson=tgdf.geometry, 
-    #                             color=selection,                               
-    #                             locations=tgdf.index, 
-    #                             # featureidkey="properties.TRACTCE20",
-    #                             # opacity=opacity)
-    # )
-
-    fig.update_layout(mapbox_style="carto-positron", 
-                      mapbox_zoom=10.4,
-                      mapbox_center={"lat": 39.65, "lon": -104.8},
-                      margin={"r":0,"t":0,"l":0,"b":0},
-                      uirevision='constant')
+        fig.update_layout(mapbox_style="carto-positron", 
+                        mapbox_zoom=10.4,
+                        mapbox_center={"lat": 39.65, "lon": -104.8},
+                        margin={"r":0,"t":0,"l":0,"b":0},
+                        uirevision='constant')
 
 
-    return fig
+        return fig
+    
+    else:
+        fig = go.Figure(go.Scattermapbox(
+            mode = "markers",
+            lon = [-73.605], lat = [45.51],
+            marker = {'size': 20, 'color': ["cyan"]}))
+
+        fig.update_layout(mapbox_style="carto-positron", 
+                        mapbox_zoom=10.4,
+                        mapbox_center={"lat": 39.65, "lon": -104.8},
+                        margin={"r":0,"t":0,"l":0,"b":0},
+                        uirevision='constant')
+
+
+        return fig
 
 
 
