@@ -88,13 +88,28 @@ def get_figure(category, variable):
     tgdf = gdf_2020.merge(df, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
 
-    fig = px.choropleth_mapbox(tgdf, 
-                                geojson=tgdf.geometry, 
-                                color=selection,                               
-                                locations=tgdf.index, 
-                                # featureidkey="properties.TRACTCE20",
-                                # opacity=opacity)
-    )
+
+    fig=go.Figure()
+
+    fig.add_trace(go.Choroplethmapbox(
+                geojson=eval(tgdf['geometry'].to_json()),
+                                locations=tgdf.index,
+                                z=tgdf[selection],
+                                # coloraxis='coloraxis',
+                                # marker={'opacity':opacity},
+                                # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
+                                zmin=0,
+                                zmax=1,
+                                showscale=False,
+            ))
+
+    # fig = px.choropleth_mapbox(tgdf, 
+    #                             geojson=tgdf.geometry, 
+    #                             color=selection,                               
+    #                             locations=tgdf.index, 
+    #                             # featureidkey="properties.TRACTCE20",
+    #                             # opacity=opacity)
+    # )
 
     fig.update_layout(mapbox_style="carto-positron", 
                       mapbox_zoom=10.4,
