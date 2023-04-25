@@ -16,7 +16,7 @@ bgcolor = "#f3f3f1"  # mapbox light map land color
 template = {"layout": {"paper_bgcolor": bgcolor, "plot_bgcolor": bgcolor}}
 
 gdf_2020 = gpd.read_file('2020_CT/ArapahoeCT.shp')
-print(gdf_2020)
+
 
 def blank_fig(height):
     """
@@ -35,7 +35,25 @@ def blank_fig(height):
 app.layout = dbc.Container([
     header,
     dbc.Row(dcc.Graph(id='ct-map', figure=blank_fig(500))),
+    dbc.Row([
+        dbc.Col([
+            dcc.RadioItems(
+                id='category-radio',
+                options=[
+                    {'label': 'Total', 'value': 'E_'},
+                    {'label': 'Pct.', 'value': 'EP_'},
+                    {'label': 'Percentile', 'value': 'EPL_'},
+                    {'label': 'Flag', 'value': 'F_'},
+                ],
+                value='E_' 
+            ),
+        ], width=3),
+    ]),
 ])
+
+
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=8000)
