@@ -15,9 +15,8 @@ bgcolor = "#f3f3f1"  # mapbox light map land color
 
 template = {"layout": {"paper_bgcolor": bgcolor, "plot_bgcolor": bgcolor}}
 
-
-
-
+gdf_2020 = gpd.read_file('2020_CT/ArapahoeCT.shp')
+print(gdf_2020)
 
 def blank_fig(height):
     """
