@@ -17,6 +17,12 @@ template = {"layout": {"paper_bgcolor": bgcolor, "plot_bgcolor": bgcolor}}
 
 gdf_2020 = gpd.read_file('2020_CT/ArapahoeCT.shp')
 
+df_SVI_2020 = pd.read_csv('Colorado_SVI_2020.csv')
+df_SVI_2020['YEAR'] = 2020
+df = df_SVI_2020.loc[df_SVI_2020['COUNTY'] == 'Arapahoe']
+# print(df['FIPS'])
+
+col_list = list(df_SVI_2020)
 
 def blank_fig(height):
     """
@@ -48,10 +54,45 @@ app.layout = dbc.Container([
                 value='E_' 
             ),
         ], width=3),
+        dbc.Col([
+            dcc.Dropdown(
+                id='variable-dropdown',
+            ),
+        ], width=2)
     ]),
 ])
 
 
+
+@app.callback(
+    Output('ct-map', 'figure'),
+    Input('category-radio', 'value'),
+    Input('variable-dropdown', 'value'))
+def get_figure(category, variable):
+
+    selection=category
+
+    df['FIPS'] = df["FIPS"].astype(str)
+
+    tgdf = gdf_2020.merge(df, on='FIPS')
+    tgdf = tgdf.set_index('FIPS')
+
+    fig = px.choropleth_mapbox(tgdf, 
+                                geojson=tgdf.geometry, 
+                                color=variable,                               
+                                locations=tgdf.index, 
+                                # featureidkey="properties.TRACTCE20",
+                                # opacity=opacity)
+    )
+
+    fig.update_layout(mapbox_style="carto-positron", 
+                      mapbox_zoom=10.4,
+                      mapbox_center={"lat": 39.65, "lon": -104.8},
+                      margin={"r":0,"t":0,"l":0,"b":0},
+                      uirevision='constant')
+
+
+    return fig
 
 
 
