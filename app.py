@@ -22,6 +22,9 @@ df_SVI_2020['YEAR'] = 2020
 df = df_SVI_2020.loc[df_SVI_2020['COUNTY'] == 'Arapahoe']
 # print(df['FIPS'])
 
+Arap_outline = gpd.read_file("/Users/jamesswank/Python_Projects/Arap_SVI_Dash/us-county-boundaries")
+
+
 col_list = list(df_SVI_2020)
 
 def blank_fig(height):
@@ -88,12 +91,12 @@ def get_figure(category, variable):
 
     tgdf = gdf_2020.merge(df, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
-    print(list(tgdf.columns))
+    # print(list(tgdf.columns))
 
-    
+    fig=go.Figure()
 
     if variable:
-        fig=go.Figure()
+        
 
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
@@ -104,7 +107,7 @@ def get_figure(category, variable):
                             # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
                             zmin=0,
                             zmax=1,
-                            showscale=True,
+                            showlegend=True,
         ))
 
     # else:
@@ -115,29 +118,49 @@ def get_figure(category, variable):
         
 
 
-        fig.update_layout(mapbox_style="carto-positron", 
-                        mapbox_zoom=10.4,
-                        mapbox_center={"lat": 39.65, "lon": -104.8},
-                        margin={"r":0,"t":0,"l":0,"b":0},
-                        uirevision='constant')
+        # fig.update_layout(mapbox_style="carto-positron", 
+        #                 mapbox_zoom=10.4,
+        #                 mapbox_center={"lat": 39.65, "lon": -104.8},
+        #                 margin={"r":0,"t":0,"l":0,"b":0},
+        #                 uirevision='constant')
 
 
-        return fig
+        # return fig
     
     else:
         fig = go.Figure(go.Scattermapbox(
             mode = "markers",
             lon = [-73.605], lat = [45.51],
-            marker = {'size': 20, 'color': ["cyan"]}))
+            # marker = {'size': 20, 'color': ["cyan"]},
+            showlegend=True
+            ))
 
-        fig.update_layout(mapbox_style="carto-positron", 
+        # fig.update_layout(mapbox_style="carto-positron", 
+        #                 mapbox_zoom=10.4,
+        #                 mapbox_center={"lat": 39.65, "lon": -104.8},
+        #                 margin={"r":0,"t":0,"l":0,"b":0},
+        #                 uirevision='constant')
+
+
+        # return fig
+
+    layer = [
+        {
+            "source": Arap_outline["geometry"].__geo_interface__,
+            "type": "line",
+            "color": "black"
+        }
+    ]
+
+    fig.update_layout(mapbox_style="carto-positron", 
                         mapbox_zoom=10.4,
+                        mapbox_layers=layer,
                         mapbox_center={"lat": 39.65, "lon": -104.8},
                         margin={"r":0,"t":0,"l":0,"b":0},
                         uirevision='constant')
 
 
-        return fig
+    return fig
 
 
 
