@@ -63,6 +63,17 @@ app.layout = dbc.Container([
 ])
 
 
+@app.callback(
+        Output('variable-dropdown', 'options'),
+        Input('category-radio', 'value')
+)
+def category_options(selected_value):
+    print(selected_value)
+    # variables = list(lambda x: x, col_list)
+    variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
+    # print([{'label': i, 'value': i} for i in col_list[filter(lambda x: x.startswith(selected_value))]])
+    return variables 
+
 
 @app.callback(
     Output('ct-map', 'figure'),
@@ -70,7 +81,7 @@ app.layout = dbc.Container([
     Input('variable-dropdown', 'value'))
 def get_figure(category, variable):
 
-    selection=category
+    selection=variable
 
     df['FIPS'] = df["FIPS"].astype(str)
 
@@ -79,7 +90,7 @@ def get_figure(category, variable):
 
     fig = px.choropleth_mapbox(tgdf, 
                                 geojson=tgdf.geometry, 
-                                color=variable,                               
+                                color=selection,                               
                                 locations=tgdf.index, 
                                 # featureidkey="properties.TRACTCE20",
                                 # opacity=opacity)
