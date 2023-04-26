@@ -61,7 +61,16 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id='variable-dropdown',
             ),
-        ], width=2)
+        ], width=2),
+        dbc.Col([
+            dcc.Slider(0, 1, value=1,
+                marks={
+                    0: {'label': 'Light', 'style': {'color': 'white'}},
+                    1: {'label': 'Dark', 'style': {'color': 'white'}},
+                },
+                id = 'opacity',
+            ),
+        ], width=6),
     ]),
 ])
 
