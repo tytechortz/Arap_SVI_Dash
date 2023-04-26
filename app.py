@@ -89,8 +89,9 @@ def category_options(selected_value):
 @app.callback(
     Output('ct-map', 'figure'),
     Input('category-radio', 'value'),
+    Input('opacity', 'value'),
     Input('variable-dropdown', 'value'))
-def get_figure(category, variable):
+def get_figure(category, opacity, variable):
 
     selection=variable
 
@@ -107,7 +108,7 @@ def get_figure(category, variable):
                             locations=tgdf.index,
                             z=tgdf[selection],
                             coloraxis='coloraxis',
-                            # marker={'opacity':opacity},
+                            marker={'opacity':opacity},
                             # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
                             zmin=0,
                             zmax=1,
