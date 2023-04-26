@@ -71,10 +71,9 @@ app.layout = dbc.Container([
         Input('category-radio', 'value')
 )
 def category_options(selected_value):
-    print(selected_value)
-    # variables = list(lambda x: x, col_list)
+    
     variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
-    # print([{'label': i, 'value': i} for i in col_list[filter(lambda x: x.startswith(selected_value))]])
+
     return variables 
 
 
@@ -91,58 +90,31 @@ def get_figure(category, variable):
 
     tgdf = gdf_2020.merge(df, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
-    # print(list(tgdf.columns))
+    print(list(tgdf.columns))
+    print(tgdf[selection])
+    
 
     fig=go.Figure()
 
     if variable:
-        
-
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
                             locations=tgdf.index,
                             z=tgdf[selection],
-                            # coloraxis='coloraxis',
+                            coloraxis='coloraxis',
                             # marker={'opacity':opacity},
                             # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
                             zmin=0,
                             zmax=1,
-                            showlegend=True,
+                            # showlegend=True,
         ))
 
-    # else:
-    #     fig.add_trace(go.Scattermapbox(
-    #         mode="lines",
-
-    #     ))
-        
-
-
-        # fig.update_layout(mapbox_style="carto-positron", 
-        #                 mapbox_zoom=10.4,
-        #                 mapbox_center={"lat": 39.65, "lon": -104.8},
-        #                 margin={"r":0,"t":0,"l":0,"b":0},
-        #                 uirevision='constant')
-
-
-        # return fig
-    
     else:
         fig = go.Figure(go.Scattermapbox(
             mode = "markers",
             lon = [-73.605], lat = [45.51],
-            # marker = {'size': 20, 'color': ["cyan"]},
-            showlegend=True
+            # showlegend=True
             ))
-
-        # fig.update_layout(mapbox_style="carto-positron", 
-        #                 mapbox_zoom=10.4,
-        #                 mapbox_center={"lat": 39.65, "lon": -104.8},
-        #                 margin={"r":0,"t":0,"l":0,"b":0},
-        #                 uirevision='constant')
-
-
-        # return fig
 
     layer = [
         {
