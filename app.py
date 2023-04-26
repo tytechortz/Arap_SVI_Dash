@@ -84,16 +84,12 @@ def category_options(selected_value):
 def get_figure(category, variable):
 
     selection=variable
-    print(variable)
 
     df['FIPS'] = df["FIPS"].astype(str)
 
     tgdf = gdf_2020.merge(df, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
-    print(list(tgdf.columns))
-    print(tgdf[selection])
-    
-
+   
     fig=go.Figure()
 
     if variable:
