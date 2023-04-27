@@ -94,12 +94,14 @@ app.layout = dbc.Container([
         dbc.Col([
             html.Div(id='range-slider-div')
         ], width=6),
+    ]),
+    dbc.Row([
         dbc.Col([
             html.Div(id='slider-min-div') 
-        ], width=1),
+        ], width=3),
         dbc.Col([
             html.Div(id='slider-max-div') 
-        ], width=1),
+        ], width=3),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
 ])
