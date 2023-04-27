@@ -77,9 +77,9 @@ app.layout = dbc.Container([
             dcc.RangeSlider(
                 id='pct-slider',
                 min=0,
-                max=1,
-                step=.1,
-                value=[0,1],
+                max=100,
+                step=10,
+                value=[0,100],
                 # options=[
                 #     {'label': 'Total', 'value': 'E_'},
                 #     {'label': 'Pct.', 'value': 'EP_'},
@@ -105,9 +105,15 @@ def category_options(selected_value):
 
 @app.callback(
         Output('pct-data', 'data'),
-        Input('pct-slider', 'value'))
-def category_options(pct):
-    return print(pct)
+        Input('pct-slider', 'value'),
+        Input('variable-dropdown', 'value'))
+def category_options(pct, variable):
+    # print(df)
+
+
+    # df_pct = df[df[variable] ]
+
+    return df_pct.to_json()
 
 @app.callback(
     Output('ct-map', 'figure'),
