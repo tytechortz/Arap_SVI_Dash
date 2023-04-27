@@ -121,14 +121,17 @@ def category_options(pct, variable):
     Input('category-radio', 'value'),
     Input('opacity', 'value'),
     Input('pct-slider', 'value'),
+    Input('pct-data', 'data'),
     Input('variable-dropdown', 'value'))
-def get_figure(category, opacity, pct, variable):
+def get_figure(category, opacity, pct, data, variable):
     
     selection=variable
 
-    df['FIPS'] = df["FIPS"].astype(str)
+    df_sel = pd.read_json(data)
 
-    tgdf = gdf_2020.merge(df, on='FIPS')
+    df_sel['FIPS'] = df_sel["FIPS"].astype(str)
+
+    tgdf = gdf_2020.merge(df_sel, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
    
     fig=go.Figure()
