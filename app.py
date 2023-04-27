@@ -61,8 +61,8 @@ app.layout = dbc.Container([
             dcc.RadioItems(
                 id='scale',
                 options=[
-                    {'label': 'Scale', 'value': 'scale'},
-                    {'label': 'Y/N', 'value': 'y_n'}
+                    {'label': 'Scale', 'value': 'True'},
+                    {'label': 'Y/N', 'value': 'False'}
                 ]
             )
         ], width=2),
@@ -140,8 +140,9 @@ def category_options(pct, variable):
     Input('opacity', 'value'),
     Input('pct-slider', 'value'),
     Input('pct-data', 'data'),
+    Input('scale', 'value'),
     Input('variable-dropdown', 'value'))
-def get_figure(category, opacity, pct, data, variable):
+def get_figure(category, opacity, pct, data, scale, variable):
     
     selection=variable
 
@@ -151,23 +152,29 @@ def get_figure(category, opacity, pct, data, variable):
 
     tgdf = gdf_2020.merge(df_sel, on='FIPS')
     tgdf = tgdf.set_index('FIPS')
+    
    
     fig=go.Figure()
-
+    if scale == 'True':
+        scale = True
+    else:
+        scale = False
 
     colorscale=[0, 'rgb(250,0,0)'],[1, 'rgb(250,0,0)']
 
     if variable and len(tgdf) > 0:
+        # tgdf[selection] = tgdf[selection] / 100
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
                             locations=tgdf.index,
                             z=tgdf[selection],
+                            autocolorscale=scale,
                             # coloraxis='coloraxis',
                             marker={'opacity':opacity},
                             # colorscale=([0, 'rgb(240,248,255)'],[1, 'rgb(255, 255, 0)']),
                             colorscale = colorscale,
-                            zmin=0,
-                            zmax=1,
+                            # zmin=0,
+                            # zmax=1,
                             # showlegend=True,
         ))
 
