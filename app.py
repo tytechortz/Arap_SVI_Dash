@@ -78,7 +78,7 @@ app.layout = dbc.Container([
                 id='pct-slider',
                 min=0,
                 max=100,
-                step=1,
+                # step=1,
                 value=[0,100],
                 # options=[
                 #     {'label': 'Total', 'value': 'E_'},
@@ -87,7 +87,7 @@ app.layout = dbc.Container([
                 #     {'label': 'Flag', 'value': 'F_'},
                 # ],
             ),
-        ], width=12),
+        ], width=6),
         
     ]),
     dcc.Store(id='pct-data', storage_type='session'),
