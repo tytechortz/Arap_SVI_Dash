@@ -77,9 +77,9 @@ app.layout = dbc.Container([
             dcc.RangeSlider(
                 id='pct-slider',
                 min=0,
-                max=100,
-                step=10,
-                value=[0,100],
+                max=20,
+                step=1,
+                value=[0,20],
                 # options=[
                 #     {'label': 'Total', 'value': 'E_'},
                 #     {'label': 'Pct.', 'value': 'EP_'},
