@@ -122,15 +122,21 @@ def category_options(selected_value):
 def category_options(selected_value):
     print(selected_value)
     if selected_value == 'E_':
+        min=0
+        max=8000
+
+    elif selected_value == 'EP_':
+        min=0
+        max=100
 
     
     # variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
 
-        return dcc.RangeSlider(
-            id='range-slider',
-            min=0,
-            max=10000,  
-        )
+    return dcc.RangeSlider(
+        id='range-slider',
+        min=min,
+        max=max,  
+    )
 
 # @app.callback(
 #         Output('variable-dropdown', 'options'),
