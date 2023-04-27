@@ -160,11 +160,15 @@ def category_options(slider_max):
 def category_options(selected_value):
     print(selected_value)
     if selected_value == 'F_':
+
+        min=0
+        max=1
+        value=[min, max]
         return dcc.RangeSlider(
             id='range-slider',
-            min=0,
-            max=1, 
-            value=[min, max] 
+            min=min,
+            max=max, 
+            value=value 
         )
     
     else:
