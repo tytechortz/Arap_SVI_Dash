@@ -97,6 +97,9 @@ app.layout = dbc.Container([
         dbc.Col([
             html.Div(id='slider-min-div') 
         ], width=1),
+        dbc.Col([
+            html.Div(id='slider-max-div') 
+        ], width=1),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
 ])
@@ -124,6 +127,22 @@ def category_options(slider_min):
     return daq.LEDDisplay(
             id='slider-min',
             label='Min',
+            value=value,
+            className='dark-theme-control')
+
+@app.callback(
+        Output('slider-max-div', 'children'),
+        # Output('slider-min', 'value'),
+        Input('range-slider', 'value'))
+def category_options(slider_max):
+    print(slider_max)
+    if slider_max:
+        value = slider_max[1]
+    else:
+        value=0
+    return daq.LEDDisplay(
+            id='slider-max',
+            label='Max',
             value=value,
             className='dark-theme-control')
 
