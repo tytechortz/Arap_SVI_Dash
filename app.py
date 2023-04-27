@@ -108,10 +108,11 @@ def category_options(selected_value):
         Input('pct-slider', 'value'),
         Input('variable-dropdown', 'value'))
 def category_options(pct, variable):
-    # print(df)
+    print(pct[1])
 
 
-    # df_pct = df[df[variable] ]
+    df_pct = df.loc[(df[variable] >= pct[0]) & (df[variable] <= pct[1])]
+    print(df_pct)
 
     return df_pct.to_json()
 
