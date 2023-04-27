@@ -28,6 +28,13 @@ Arap_outline = gpd.read_file("/Users/jamesswank/Python_Projects/Arap_SVI_Dash/us
 
 col_list = list(df_SVI_2020)
 
+theme = {
+    'dark': True,
+    'detail': '#007439',
+    'primary': '#00EA64',
+    'secondary': '#6E6E6E',
+}
+
 def blank_fig(height):
     """
     Build blank figure with the requested height
@@ -101,7 +108,15 @@ app.layout = dbc.Container([
             #     # ],
             # ),
         ], width=6),
-        
+        dbc.Col([
+            html.Div(id='slider-min-div')
+        #     daq.LEDDisplay(
+        #     id='slider-min',
+        #     label='Min',
+        #     value=0,
+        #     className='dark-theme-control'
+        # )    
+        ], width=1),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
 ])
@@ -117,26 +132,57 @@ def category_options(selected_value):
     return variables 
 
 @app.callback(
+        Output('slider-min-div', 'children'),
+        # Output('slider-min', 'value'),
+        Input('range-slider', 'value'))
+def category_options(slider_min):
+    print(slider_min)
+    if slider_min:
+        value = slider_min[0]
+    else:
+        value=0
+    return daq.LEDDisplay(
+            id='slider-min',
+            label='Min',
+            value=value,
+            className='dark-theme-control')
+
+@app.callback(
         Output('range-slider-div', 'children'),
+        # Output('slider-min', 'value'),
         Input('category-radio', 'value'))
 def category_options(selected_value):
     print(selected_value)
-    if selected_value == 'E_':
-        min=0
-        max=8000
+    if selected_value == 'F_':
+        return dcc.RangeSlider(
+            id='range-slider',
+            min=0,
+            max=1,  
+        )
+    
+    else:
+        if selected_value == 'E_':
+            min=0
+            max=8000
 
-    elif selected_value == 'EP_':
-        min=0
-        max=100
+        elif selected_value == 'EP_':
+            min=0
+            max=100
+        
+        elif selected_value == 'EPL_':
+            min=0
+            max=.1
+
+        return dcc.RangeSlider(
+        id='range-slider',
+        min=min,
+        max=max,  
+        )
 
     
     # variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
 
-    return dcc.RangeSlider(
-        id='range-slider',
-        min=min,
-        max=max,  
-    )
+    
 
 # @app.callback(
 #         Output('variable-dropdown', 'options'),
