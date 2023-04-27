@@ -148,7 +148,7 @@ def get_figure(category, opacity, pct, data, variable):
 
     colorscale=[0, 'rgb(250,0,0)'],[1, 'rgb(250,0,0)']
 
-    if variable:
+    if variable and len(tgdf) > 0:
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
                             locations=tgdf.index,
