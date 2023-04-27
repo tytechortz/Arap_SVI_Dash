@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
+import dash_daq as daq
 import geopandas as gpd
 import plotly.express as px
 import pandas as pd
@@ -63,7 +64,8 @@ app.layout = dbc.Container([
                 options=[
                     {'label': 'Scale', 'value': 'True'},
                     {'label': 'Y/N', 'value': 'False'}
-                ]
+                ],
+                value='True'
             )
         ], width=2),
         dbc.Col([
@@ -83,23 +85,25 @@ app.layout = dbc.Container([
     ]),
     dbc.Row([
         dbc.Col([
-            dcc.RangeSlider(
-                id='pct-slider',
-                min=0,
-                max=100,
-                # step=1,
-                value=[0,100],
-                # options=[
-                #     {'label': 'Total', 'value': 'E_'},
-                #     {'label': 'Pct.', 'value': 'EP_'},
-                #     {'label': 'Percentile', 'value': 'EPL_'},
-                #     {'label': 'Flag', 'value': 'F_'},
-                # ],
-            ),
+            html.Div(id='range-slider-div')
+            
+            # dcc.RangeSlider(
+            #     id='pct-slider',
+            #     min=0,
+            #     max=100,
+            #     # step=1,
+            #     value=[0,100],
+            #     # options=[
+            #     #     {'label': 'Total', 'value': 'E_'},
+            #     #     {'label': 'Pct.', 'value': 'EP_'},
+            #     #     {'label': 'Percentile', 'value': 'EPL_'},
+            #     #     {'label': 'Flag', 'value': 'F_'},
+            #     # ],
+            # ),
         ], width=6),
         
     ]),
-    dcc.Store(id='pct-data', storage_type='session'),
+    dcc.Store(id='selected-data', storage_type='session'),
 ])
 
 
@@ -112,6 +116,22 @@ def category_options(selected_value):
 
     return variables 
 
+@app.callback(
+        Output('range-slider-div', 'children'),
+        Input('category-radio', 'value'))
+def category_options(selected_value):
+    print(selected_value)
+    if selected_value == 'E_':
+
+    
+    # variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
+
+        return dcc.RangeSlider(
+            id='range-slider',
+            min=0,
+            max=10000,  
+        )
+
 # @app.callback(
 #         Output('variable-dropdown', 'options'),
 #         Input('category-radio', 'value'))
@@ -122,15 +142,17 @@ def category_options(selected_value):
 #     return variables 
 
 @app.callback(
-        Output('pct-data', 'data'),
-        Input('pct-slider', 'value'),
+        Output('selected-data', 'data'),
+        Input('category-radio', 'value'),
+        Input('range-slider', 'value'),
         Input('variable-dropdown', 'value'))
-def category_options(pct, variable):
-    print(pct[1])
-
+def category_options(cat, pct, variable):
+    # print(pct[1])
+    # if cat == 'E_':
+    #     df_1 = df
 
     df_pct = df.loc[(df[variable] >= pct[0]) & (df[variable] <= pct[1])]
-    print(df_pct)
+    # print(df_pct)
 
     return df_pct.to_json()
 
@@ -138,8 +160,8 @@ def category_options(pct, variable):
     Output('ct-map', 'figure'),
     Input('category-radio', 'value'),
     Input('opacity', 'value'),
-    Input('pct-slider', 'value'),
-    Input('pct-data', 'data'),
+    Input('range-slider', 'value'),
+    Input('selected-data', 'data'),
     Input('scale', 'value'),
     Input('variable-dropdown', 'value'))
 def get_figure(category, opacity, pct, data, scale, variable):
