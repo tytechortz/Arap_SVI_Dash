@@ -56,7 +56,16 @@ app.layout = dbc.Container([
                 ],
                 value='E_' 
             ),
-        ], width=3),
+        ], width=2),
+        dbc.Col([
+            dcc.RadioItems(
+                id='scale',
+                options=[
+                    {'label': 'Scale', 'value': 'scale'},
+                    {'label': 'Y/N', 'value': 'y_n'}
+                ]
+            )
+        ], width=2),
         dbc.Col([
             dcc.Dropdown(
                 id='variable-dropdown',
@@ -70,7 +79,7 @@ app.layout = dbc.Container([
                 },
                 id = 'opacity',
             ),
-        ], width=6),
+        ], width=3),
     ]),
     dbc.Row([
         dbc.Col([
