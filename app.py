@@ -73,44 +73,49 @@ app.layout = dbc.Container([
         ], width=6),
     ]),
     dbc.Row([
-        # dbc.Col([
-        #     dcc.RangeSlider(
-        #         id='pctile-slider',
-        #         min=0,
-        #         max=1,
-        #         step=.1,
-        #         value=[0,1],
-        #         # options=[
-        #         #     {'label': 'Total', 'value': 'E_'},
-        #         #     {'label': 'Pct.', 'value': 'EP_'},
-        #         #     {'label': 'Percentile', 'value': 'EPL_'},
-        #         #     {'label': 'Flag', 'value': 'F_'},
-        #         # ],
-        #     ),
-        # ], width=3),
+        dbc.Col([
+            dcc.RangeSlider(
+                id='pct-slider',
+                min=0,
+                max=1,
+                step=.1,
+                value=[0,1],
+                # options=[
+                #     {'label': 'Total', 'value': 'E_'},
+                #     {'label': 'Pct.', 'value': 'EP_'},
+                #     {'label': 'Percentile', 'value': 'EPL_'},
+                #     {'label': 'Flag', 'value': 'F_'},
+                # ],
+            ),
+        ], width=3),
         
     ]),
+    dcc.Store(id='pct-data', storage_type='session'),
 ])
 
 
 @app.callback(
         Output('variable-dropdown', 'options'),
-        Input('category-radio', 'value')
-)
+        Input('category-radio', 'value'))
 def category_options(selected_value):
     
     variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
 
     return variables 
 
+@app.callback(
+        Output('pct-data', 'data'),
+        Input('pct-slider', 'value'))
+def category_options(pct):
+    return print(pct)
 
 @app.callback(
     Output('ct-map', 'figure'),
     Input('category-radio', 'value'),
     Input('opacity', 'value'),
-    # Input('pctile-slider', 'value'),
+    Input('pct-slider', 'value'),
     Input('variable-dropdown', 'value'))
-def get_figure(category, opacity, variable):
+def get_figure(category, opacity, pct, variable):
     
     selection=variable
 
