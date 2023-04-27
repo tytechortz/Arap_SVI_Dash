@@ -93,29 +93,9 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.Div(id='range-slider-div')
-            
-            # dcc.RangeSlider(
-            #     id='pct-slider',
-            #     min=0,
-            #     max=100,
-            #     # step=1,
-            #     value=[0,100],
-            #     # options=[
-            #     #     {'label': 'Total', 'value': 'E_'},
-            #     #     {'label': 'Pct.', 'value': 'EP_'},
-            #     #     {'label': 'Percentile', 'value': 'EPL_'},
-            #     #     {'label': 'Flag', 'value': 'F_'},
-            #     # ],
-            # ),
         ], width=6),
         dbc.Col([
-            html.Div(id='slider-min-div')
-        #     daq.LEDDisplay(
-        #     id='slider-min',
-        #     label='Min',
-        #     value=0,
-        #     className='dark-theme-control'
-        # )    
+            html.Div(id='slider-min-div') 
         ], width=1),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
@@ -179,19 +159,6 @@ def category_options(selected_value):
         max=max,  
         )
 
-    
-    # variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
-
-    
-
-# @app.callback(
-#         Output('variable-dropdown', 'options'),
-#         Input('category-radio', 'value'))
-# def category_options(selected_value):
-    
-#     variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
-
-#     return variables 
 
 @app.callback(
         Output('selected-data', 'data'),
