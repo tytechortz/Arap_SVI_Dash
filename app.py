@@ -121,15 +121,18 @@ def category_options(selected_value):
         # Output('slider-min', 'value'),
         Input('range-slider', 'value'))
 def category_options(slider_min):
-    print(slider_min)
-    if slider_min:
-        value = slider_min[0]
-    else:
-        value=0
+    # print(slider_min)
+    # if slider_min:
+    #     value = slider_min[0]
+    # else:
+    #     value=0
+    value=slider_min[0]
     return daq.LEDDisplay(
             id='slider-min',
             label='Min',
             value=value,
+            backgroundColor='black',
+            color=theme['primary'],
             className='dark-theme-control')
 
 @app.callback(
@@ -137,15 +140,17 @@ def category_options(slider_min):
         # Output('slider-min', 'value'),
         Input('range-slider', 'value'))
 def category_options(slider_max):
-    print(slider_max)
-    if slider_max:
-        value = slider_max[1]
-    else:
-        value=0
+    print(slider_max[1])
+    value=slider_max[1]
+    # if slider_max:
+    #     value = slider_max[1]
+    # else:
+    #     value=slider_max[1]
     return daq.LEDDisplay(
             id='slider-max',
             label='Max',
             value=value,
+            backgroundColor='black',
             className='dark-theme-control')
 
 @app.callback(
@@ -158,26 +163,31 @@ def category_options(selected_value):
         return dcc.RangeSlider(
             id='range-slider',
             min=0,
-            max=1,  
+            max=1, 
+            value=[min, max] 
         )
     
     else:
         if selected_value == 'E_':
             min=0
             max=8000
+            value=[min, max]
 
         elif selected_value == 'EP_':
             min=0
             max=100
+            value=[min, max]
         
         elif selected_value == 'EPL_':
             min=0
             max=.1
+            value=[min, max]
 
         return dcc.RangeSlider(
         id='range-slider',
         min=min,
-        max=max,  
+        max=max,
+        value=value  
         )
 
 
