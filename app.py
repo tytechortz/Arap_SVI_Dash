@@ -77,9 +77,9 @@ app.layout = dbc.Container([
             dcc.RangeSlider(
                 id='pct-slider',
                 min=0,
-                max=20,
+                max=100,
                 step=1,
-                value=[0,20],
+                value=[0,100],
                 # options=[
                 #     {'label': 'Total', 'value': 'E_'},
                 #     {'label': 'Pct.', 'value': 'EP_'},
@@ -87,7 +87,7 @@ app.layout = dbc.Container([
                 #     {'label': 'Flag', 'value': 'F_'},
                 # ],
             ),
-        ], width=3),
+        ], width=12),
         
     ]),
     dcc.Store(id='pct-data', storage_type='session'),
@@ -102,6 +102,15 @@ def category_options(selected_value):
     variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
 
     return variables 
+
+# @app.callback(
+#         Output('variable-dropdown', 'options'),
+#         Input('category-radio', 'value'))
+# def category_options(selected_value):
+    
+#     variables = [{'label': i, 'value': i} for i in list(filter(lambda x: x.startswith(selected_value), col_list))]
+
+#     return variables 
 
 @app.callback(
         Output('pct-data', 'data'),
@@ -137,17 +146,17 @@ def get_figure(category, opacity, pct, data, variable):
     fig=go.Figure()
 
 
-    # colorscale=[pctile[0], 'rgb(240,248,255)'],[pctile[1], 'rgb(255, 255, 0)']
+    colorscale=[0, 'rgb(250,0,0)'],[1, 'rgb(250,0,0)']
 
     if variable:
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
                             locations=tgdf.index,
                             z=tgdf[selection],
-                            coloraxis='coloraxis',
+                            # coloraxis='coloraxis',
                             marker={'opacity':opacity},
                             # colorscale=([0, 'rgb(240,248,255)'],[1, 'rgb(255, 255, 0)']),
-                            # colorscale = colorscale,
+                            colorscale = colorscale,
                             zmin=0,
                             zmax=1,
                             # showlegend=True,
