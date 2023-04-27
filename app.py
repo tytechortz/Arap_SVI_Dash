@@ -72,6 +72,24 @@ app.layout = dbc.Container([
             ),
         ], width=6),
     ]),
+    dbc.Row([
+        # dbc.Col([
+        #     dcc.RangeSlider(
+        #         id='pctile-slider',
+        #         min=0,
+        #         max=1,
+        #         step=.1,
+        #         value=[0,1],
+        #         # options=[
+        #         #     {'label': 'Total', 'value': 'E_'},
+        #         #     {'label': 'Pct.', 'value': 'EP_'},
+        #         #     {'label': 'Percentile', 'value': 'EPL_'},
+        #         #     {'label': 'Flag', 'value': 'F_'},
+        #         # ],
+        #     ),
+        # ], width=3),
+        
+    ]),
 ])
 
 
@@ -90,9 +108,10 @@ def category_options(selected_value):
     Output('ct-map', 'figure'),
     Input('category-radio', 'value'),
     Input('opacity', 'value'),
+    # Input('pctile-slider', 'value'),
     Input('variable-dropdown', 'value'))
 def get_figure(category, opacity, variable):
-
+    
     selection=variable
 
     df['FIPS'] = df["FIPS"].astype(str)
@@ -102,6 +121,9 @@ def get_figure(category, opacity, variable):
    
     fig=go.Figure()
 
+
+    # colorscale=[pctile[0], 'rgb(240,248,255)'],[pctile[1], 'rgb(255, 255, 0)']
+
     if variable:
         fig.add_trace(go.Choroplethmapbox(
             geojson=eval(tgdf['geometry'].to_json()),
@@ -109,7 +131,8 @@ def get_figure(category, opacity, variable):
                             z=tgdf[selection],
                             coloraxis='coloraxis',
                             marker={'opacity':opacity},
-                            # colorscale=([0,'rgba(0,0,0,0)'],[1, colors[i]]),
+                            # colorscale=([0, 'rgb(240,248,255)'],[1, 'rgb(255, 255, 0)']),
+                            # colorscale = colorscale,
                             zmin=0,
                             zmax=1,
                             # showlegend=True,
