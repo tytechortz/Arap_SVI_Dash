@@ -98,10 +98,11 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.Div(id='slider-min-div') 
-        ], width=3),
+        ], width=1),
+        dbc.Col([],width=4),
         dbc.Col([
             html.Div(id='slider-max-div') 
-        ], width=3),
+        ], width=1),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
 ])
@@ -132,6 +133,7 @@ def category_options(slider_min):
             label='Min',
             value=value,
             backgroundColor='black',
+            size=15,
             color=theme['primary'],
             className='dark-theme-control')
 
@@ -151,6 +153,7 @@ def category_options(slider_max):
             label='Max',
             value=value,
             backgroundColor='black',
+            size=15,
             className='dark-theme-control')
 
 @app.callback(
