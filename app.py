@@ -60,7 +60,7 @@ app.layout = dbc.Container([
                     {'label': 'Total', 'value': 'E_'},
                     {'label': 'Pct.', 'value': 'EP_'},
                     {'label': 'Percentile', 'value': 'EPL_'},
-                    {'label': 'Flag', 'value': 'F_'},
+                    # {'label': 'Flag', 'value': 'F_'},
                 ],
                 value='E_' 
             ),
