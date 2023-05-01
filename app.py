@@ -96,10 +96,13 @@ app.layout = dbc.Container([
         ], width=6),
     ]),
     dbc.Row([
-        # dbc.Col([
-        #     html.Div(id='slider-min-div') 
-        # ], width=1),
-        # dbc.Col([],width=4),
+        dbc.Col([html.Div("",style={'height': 25})])  
+    ]),
+    dbc.Row([
+        dbc.Col([html.H4('Stuff')],width=4),
+        dbc.Col([
+            html.Div(id='slider-min-div') 
+        ], width=1),
         # dbc.Col([
         #     html.Div(id='slider-max-div') 
         # ], width=1),
