@@ -96,13 +96,13 @@ app.layout = dbc.Container([
         ], width=6),
     ]),
     dbc.Row([
-        dbc.Col([
-            html.Div(id='slider-min-div') 
-        ], width=1),
-        dbc.Col([],width=4),
-        dbc.Col([
-            html.Div(id='slider-max-div') 
-        ], width=1),
+        # dbc.Col([
+        #     html.Div(id='slider-min-div') 
+        # ], width=1),
+        # dbc.Col([],width=4),
+        # dbc.Col([
+        #     html.Div(id='slider-max-div') 
+        # ], width=1),
     ]),
     dcc.Store(id='selected-data', storage_type='session'),
 ])
@@ -187,14 +187,16 @@ def category_options(selected_value):
         
         elif selected_value == 'EPL_':
             min=0
-            max=.1
+            max=1
             value=[min, max]
 
         return dcc.RangeSlider(
         id='range-slider',
         min=min,
         max=max,
-        value=value  
+        value=value,
+        tooltip={'placement': 'bottom', 'always_visible': True}
+        # style={'color': 'red'}
         )
 
 
